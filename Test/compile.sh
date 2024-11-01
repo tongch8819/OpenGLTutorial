@@ -1,14 +1,47 @@
-# gcc -g -Wall $1 -lopengl32 -lglu32 -lfreeglut
+#!/bin/bash
 
-# gcc -c -o ex1.o ex1.cpp -I"D:\Projects\CPP\OpenGLTest\Misc\glutdlls37beta"
-# gcc -o $TARGET_NAME.exe $TARGET_NAME.o -L"C:\Program Files\Common Files\MinGW\GLUT\lib" -lglut32 -lopengl32 -Wl,--subsystem,windows
+# Check if target file is provided
+if [ -z "$1" ]; then
+    echo "Usage: $0 <source_file>"
+    exit 1
+fi
 
-## Dynamic Link
-# gcc -c -o $TARGET_NAME.o $TARGET_NAME.c -I"D:\Projects\CPP\OpenGLTest\freeglut\include"
-# gcc -o $TARGET_NAME.exe $TARGET_NAME.o -L"D:\Projects\CPP\OpenGLTest\freeglut\lib" -lfreeglut -lopengl32 -lglu32 -Wl,--subsystem,windows
+TARGET_NAME=$(basename "$1" .${1##*.})  # Extract filename without extension
+SOURCE_FILE="$1"
 
-## Static Link
-TARGET_NAME=$1
-# gcc -c -o $TARGET_NAME.o $TARGET_NAME.cpp -D FREEGLUT_STATIC -I"D:\Projects\CPP\OpenGLTest\freeglut\include"
-gcc -o $TARGET_NAME.exe $TARGET_NAME.o -L"D:\Projects\CPP\OpenGLTest\freeglut\lib" -lfreeglut_static -lopengl32 -lwinmm -lgdi32 -Wl,--subsystem,windows
-# rm $TARGET_NAME.o
+# Helper function to detect file type and set the compiler
+set_compiler() {
+    EXT="${SOURCE_FILE##*.}"
+    case "$EXT" in
+        c)
+            COMPILER="gcc"
+            ;;
+        cpp)
+            COMPILER="g++"
+            ;;
+        *)
+            echo "Unsupported file type: $EXT"
+            exit 1
+            ;;
+    esac
+}
+
+# Compilation function
+compile() {
+    echo "Compiling $SOURCE_FILE with $COMPILER..."
+    $COMPILER -c -o "$TARGET_NAME.o" "$SOURCE_FILE" -D FREEGLUT_STATIC -I"D:\Projects\CPP\OpenGLTest\freeglut\include"
+    $COMPILER -o "$TARGET_NAME.exe" "$TARGET_NAME.o" -L"D:\Projects\CPP\OpenGLTest\freeglut\lib" -lfreeglut_static -lopengl32 -lglu32 -lwinmm -lgdi32 -Wl,--subsystem,windows
+}
+
+# Cleanup function to remove object files
+cleanup() {
+    echo "Cleaning up object files..."
+    rm -f "$TARGET_NAME.o"
+}
+
+# Run the script
+set_compiler
+compile
+cleanup
+
+echo "Build completed: $TARGET_NAME.exe"
