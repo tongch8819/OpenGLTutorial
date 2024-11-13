@@ -8,6 +8,7 @@ fi
 
 TARGET_NAME=$(basename "$1" .${1##*.})  # Extract filename without extension
 SOURCE_FILE="$1"
+FREEGLUT_BASEDIR="D:\Project\CPP\OpenGLTest\freeglut"
 
 # Helper function to detect file type and set the compiler
 set_compiler() {
@@ -29,8 +30,8 @@ set_compiler() {
 # Compilation function
 compile() {
     echo "Compiling $SOURCE_FILE with $COMPILER..."
-    $COMPILER -c -o "$TARGET_NAME.o" "$SOURCE_FILE" -D FREEGLUT_STATIC -I"D:\Projects\CPP\OpenGLTest\freeglut\include"
-    $COMPILER -o "$TARGET_NAME.exe" "$TARGET_NAME.o" -L"D:\Projects\CPP\OpenGLTest\freeglut\lib" -lfreeglut_static -lopengl32 -lglu32 -lwinmm -lgdi32 -Wl,--subsystem,windows
+    $COMPILER -c -o "$TARGET_NAME.o" "$SOURCE_FILE" -D FREEGLUT_STATIC -I"$FREEGLUT_BASEDIR\include"
+    $COMPILER -o "$TARGET_NAME.exe" "$TARGET_NAME.o" -L"$FREEGLUT_BASEDIR\lib" -lfreeglut_static -lopengl32 -lglu32 -lwinmm -lgdi32 -Wl,--subsystem,windows
 }
 
 # Cleanup function to remove object files
