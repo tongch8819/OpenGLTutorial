@@ -9,7 +9,7 @@ fi
 
 TARGET_NAME=$(basename "$1" .${1##*.})  # Extract filename without extension
 SOURCE_FILE="$1"
-FREEGLUT_BASEDIR="D:\Project\CPP\OpenGLTest\freeglut"
+FREEGLUT_BASEDIR="D:\Projects\CPP\OpenGLTutorial\freeglut"
 
 # Helper function to detect file type and set the compiler
 set_compiler() {
