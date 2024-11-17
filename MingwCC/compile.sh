@@ -1,6 +1,5 @@
 #!/bin/bash
 set -x
-
 # Check if target file is provided
 if [ -z "$1" ]; then
     echo "Usage: $0 <source_file>"
