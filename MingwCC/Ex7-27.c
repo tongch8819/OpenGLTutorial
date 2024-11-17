@@ -5,10 +5,9 @@ float angle = 0.0f;  // Current angle of rotation
 const float radius = 0.5f;  // Radius of the circular path
 const float squareSize = 0.1f;  // Size of the square
 
-void init() {
-    // Set white background color
-    glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-}
+// void init() {
+//     // Set white background color
+// }
 
 void display() {
     glClear(GL_COLOR_BUFFER_BIT);
@@ -51,6 +50,13 @@ void update(int value) {
     if (angle < 0.0f) {
         angle += 360.0f;
     }
+
+    // angle += 2.0f;  // Adjust this value to control rotation speed
+    
+    // // Keep angle in [0, 360) range
+    // if (angle > 360.0f) {
+    //     angle -= 360.0f;
+    // }
     
     // Trigger redisplay
     glutPostRedisplay();
@@ -78,12 +84,13 @@ int main(int argc, char** argv) {
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
     glutInitWindowSize(500, 500);
-    glutCreateWindow("Square on Circular Path");
+    glutCreateWindow("矩形公转");
+    glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
     
-    init();
+    // init();
     
     glutDisplayFunc(display);
-    glutReshapeFunc(reshape);
+    // glutReshapeFunc(reshape);
     glutTimerFunc(0, update, 0);
     
     glutMainLoop();

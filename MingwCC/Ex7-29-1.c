@@ -1,10 +1,5 @@
 #include <GL/glut.h>
 #include <math.h>
-#ifdef _WIN32
-#include <windows.h>
-#else
-#include <unistd.h>
-#endif
 
 float pathAngle = 0.0f;  // Angle for position on circular path
 float squareRotation = 0.0f;  // Angle for square's rotation
@@ -68,29 +63,9 @@ void idle() {
     
     // Trigger redisplay
     glutPostRedisplay();
-    
-    // Add a small delay to control animation speed
-    // #ifdef _WIN32
-    //     Sleep(16);  // 16ms delay (~60 FPS)
-    // #else
-    //     usleep(16000);  // 16ms delay (~60 FPS)
-    // #endif
+
 }
 
-// void reshape(int w, int h) {
-//     glViewport(0, 0, w, h);
-//     glMatrixMode(GL_PROJECTION);
-//     glLoadIdentity();
-    
-//     // Maintain aspect ratio
-//     if (w <= h) {
-//         gluOrtho2D(-1.0, 1.0, -1.0 * h / w, 1.0 * h / w);
-//     } else {
-//         gluOrtho2D(-1.0 * w / h, 1.0 * w / h, -1.0, 1.0);
-//     }
-    
-//     glMatrixMode(GL_MODELVIEW);
-// }
 
 int main(int argc, char** argv) {
     glutInit(&argc, argv);
@@ -101,7 +76,6 @@ int main(int argc, char** argv) {
     init();
     
     glutDisplayFunc(display);
-    // glutReshapeFunc(reshape);
     glutIdleFunc(idle);
     
     glutMainLoop();
